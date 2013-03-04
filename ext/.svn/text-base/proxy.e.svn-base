@@ -1,0 +1,16 @@
+#ifndef __PROXY_E__
+#define __PROXY_E__
+
+#include "const.h"
+#include "struct.h"
+
+extern int numthread;
+
+extern pthread_mutex_t mutex_name;
+
+extern pthread_mutex_t mutex_num;
+
+extern pthread_mutex_t mutex_cache;
+
+
+#endif

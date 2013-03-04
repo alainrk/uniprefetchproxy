@@ -1,0 +1,19 @@
+#ifndef __CACHING_E__
+#define __CACHING_E__
+
+#include "const.h"
+#include "struct.h"
+
+extern void init_cache_list();
+
+extern void my_tempname(char *buffer);
+
+extern void add_file_cache(struct in_addr *inaddr_target, uint16_t port_target, const char *path_target, int expire_target, char *filename);
+
+extern int get_cache_name(struct in_addr *inaddr_target, uint16_t port_target, const char *path_target, char *buffer);
+
+extern int buffer_data_to_file (char *filename, char *buffer, int len);
+
+extern struct file_cache *sentinel;
+
+#endif

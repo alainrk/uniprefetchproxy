@@ -1,0 +1,12 @@
+#ifndef __PREFETCHING_E__
+#define __PREFETCHING_E__
+
+#include "const.h"
+#include "struct.h"
+
+/* Per i thread */
+extern void *get_and_cache(void *p);
+
+extern int parse(char *buf, int *plenparsed, int len, struct Request *p_prefetch_req, int level);
+
+#endif

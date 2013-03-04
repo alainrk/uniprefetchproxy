@@ -1,0 +1,16 @@
+######################
+# README
+######################
+
+An academic project based a prototype of http/html architecture to test the usefulness of a prefetch/caching proxy in a real network enviroment, with errors and delay.
+
+
+	1 - Go to source folder and type:
+
+		# make
+
+	2 - Will be created the necessary files, to start type "./proxy"
+
+	3 - To remove these files:
+
+		# make clean

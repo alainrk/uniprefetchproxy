@@ -1,0 +1,32 @@
+#ifndef __CONST_H__
+#define __CONST_H__
+
+#define MAXLENPATH 												2048
+#define MAXLENREQ 												((MAXLENPATH)+1024)
+#define MAXLENDATA 												5000
+#define MAXLENRESP 												((MAXLENREQ)+MAXLENDATA)
+#define GET 															1
+#define INF 															2
+
+#define INACTIVITY_TIMEOUT_SECONDS 				3
+#define CHANCE 														10								/* CHANCE*INACTIVITY_TIMEOUT_SECONDS secondi di attesa massima */
+#define SERVER_CHANCE 										10
+#define MAXNUMTHREADWORKING 							50
+
+#define HIDDEN 														static
+
+#define FIRST_SECOND_LEVEL_PREFETCHING 		0
+#define THIRD_LEVEL_PREFETCHING 					1
+
+#define MIN_BYTE_BEFORE_DATA 20
+
+/* Rende più stabile la ricerca di pagine già presenti in cache, ma ovviamente rallenta */
+/*#define MUTEX_CACHE*/
+
+/* Attiva il thread demone per la pulizia della cache */
+/*#define DAEMON_CACHE_CLEAN*/
+
+/* Abilita printf debugging */
+#define DEBUG
+
+#endif

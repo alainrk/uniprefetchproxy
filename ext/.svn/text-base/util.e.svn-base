@@ -1,0 +1,71 @@
+#ifndef __UTIL_E__
+#define __UTIL_E__
+
+#include "const.h"
+#include "struct.h"
+
+extern int mysend (int fd, const void *buf, size_t n);
+
+extern int myread (int fd, char *ptr, int nbytes);
+
+extern int TCP_setup_socket_listening(int *plistenfd, int numero_porta_locale);
+
+extern int SetsockoptReuseAddr(int s);
+
+extern int getDuePunti(struct Request *preq, int *plen);
+
+extern int getSlash(struct Request *preq, int *plen);
+
+extern int getEOL(struct Request *preq, int *plen);
+
+extern int getPunto(struct Request *preq, int *plen);
+
+extern int getMeno(struct Request *preq, int *plen);
+
+extern int getInt(struct Request *preq, int *plen, int *pint);
+
+extern int getIP(struct Request *preq, int *plen);
+
+extern int getPort(struct Request *preq, int *plen);
+
+extern int getPathAndEOL(struct Request *preq, int *plen);
+
+extern int getRangeAndEOL(struct Request *preq, int *plen);
+
+extern int checkRequest(struct Request *preq);
+
+extern int getRequest(int fd, struct Request *preq);
+
+extern void initRequest(struct Request *preq);
+
+extern void exitThread();
+
+extern int getFileInfo(char *filename, struct FileInfo *pfi);
+
+extern int AppendBytesFromFile(char *filename, struct Request *preq, struct Response *presp);
+
+extern int prepareGetResponse(struct Request *preq, struct Response *presp, const char *name);
+
+extern int getPathAndMAGGIORE_onresp(char *buf, int len, int *plen, char *path);
+
+extern int getDuePunti_onresp(char *buf, int len, int *plen);
+
+extern int getSlash_onresp(char *buf, int len, int *plen);
+
+extern int getPunto_onresp(char *buf, int len, int *plen);
+
+extern int getPuntoEVirgola_onresp(char *buf, int len, int *plen);
+
+extern int getInt_onresp(char *buf, int len, int *plen, int *pint);
+
+extern int getIP_onresp(char *buf, int len, int *plen, struct in_addr *pinaddr);
+
+extern int getPort_onresp(char *buf, int len, int *plen, int *pport);
+
+extern int parseINF(char *buf, int len);
+
+extern int parseRANGE(char *buf, int len);
+
+extern int parse(char *buf, int *plenparsed, int len, struct Request *p_prefetch_req, int level);
+
+#endif
