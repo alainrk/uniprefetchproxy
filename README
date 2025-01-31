@@ -1,16 +1,111 @@
-######################
-# README
-######################
+# Prefetch Proxy
 
-An academic project based a prototype of http/html architecture to test the usefulness of a prefetch/caching proxy in a real network enviroment, with errors and delay.
+A multi-threaded caching proxy server with prefetching capabilities, developed for Linux systems.
 
+## Overview
 
-	1 - Go to source folder and type:
+The proxy operates on three conceptual levels:
 
-		# make
+### Level 1: Core Proxy Server
+- Acts as a server listening for client connections up to a maximum limit
+- For each connection, starts a "session" (implemented as a separate thread) that:
+  - Receives client requests
+  - Validates mhttp/mhtml protocol correctness
+  - Checks cache for requested files
+  - Forwards requests to appropriate servers
+  - Handles server responses and errors
+  - Validates response correctness
+  - Responds to clients
+  - Manages caching
+  - Initiates prefetching
 
-	2 - Will be created the necessary files, to start type "./proxy"
+### Level 2: Resource Prefetching
+- Parses received files looking for REF and IDX/REF type URLs
+- Launches separate threads for prefetching referenced resources
+- Implements 1st and 2nd level prefetching to improve proxy performance over time
+- Handles 3rd level prefetching by caching resources from REF URL sequences in mhtml pages
+- Parallelizes prefetch operations for improved performance
 
-	3 - To remove these files:
+### Level 3: Cache Management
+- Maintains a continuously updated list of cache structures
+- Creates and manages cache entries for stored files
+- Handles file deletion from cache
+- Checks file existence in cache using URLs as unique hashes
+- Monitors and removes expired cache files
+- Generates unique filenames within cache to avoid collisions
 
-		# make clean
+## Components
+
+### proxy.c
+- Contains the main server loop
+- Manages client connections
+- Initializes proxy structures
+- Implements session threads
+- Contains cache cleaning daemon (experimental)
+
+### caching.c
+- Defines the third abstraction level
+- Handles cache communication
+- Manages cache files and associated structures
+
+### prefetching.c
+- Implements the `get_and_cache` thread
+- Handles page parsing and URL sequence identification
+- Manages all three levels of prefetching
+
+### util.c
+- Contains utility functions for:
+  - Parsing
+  - Network communication
+  - Error handling
+  - File operations
+
+### struct.h / const.h
+- Define proxy structures and constants
+- Configure mutex options for cache access
+- Set cache cleaning daemon parameters
+- Control performance parameters like:
+  - Error tolerance
+  - Timeout values
+  - Maximum thread count
+
+### extern.e
+- Provides interfaces between modules
+- Enables library-like function usage across source files
+
+## Known Issues
+
+1. GET/INF request parsing may fail when TCP packets are partially filled
+2. Socket descriptors may not close properly during server error simulation, potentially exhausting file descriptors
+
+## Performance Notes
+
+- Initial response time is slower but improves as the cache gets populated
+- Performance heavily depends on network conditions and proxy parameters
+- Trade-offs exist between:
+  - Speed vs. reliability
+  - Cache consistency vs. performance
+  - Response time vs. error tolerance
+
+## Configuration
+
+Performance can be tuned via constants in `const.h`, including:
+- Error tolerance
+- Timeout durations
+- Retry attempts
+- Maximum thread count
+- Cache cleaning parameters
+
+## Future Improvements
+
+- Consolidate similar functions to reduce code duplication
+- Optimize mutex exclusion zones
+- Improve error checking mechanisms
+- Stabilize cache cleaning daemon
+- Fine-tune default constants for different load scenarios
+
+## Environment
+
+Developed and tested on:
+- Intel x86 architecture
+- Ubuntu Linux v10.04
